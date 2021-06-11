@@ -19,9 +19,9 @@ def start(update,context):
 
 def concert_recomendation(update,context):
     context.bot.send_message(update.effective_chat.id,"Рекомендуемые Вам концерты", reply_markup=concert_recomendation_keyboard())
-    return CONCERT_LEVEL
 
 def concert_info(update,context):
+
     message = mainf.chosen_concert()
     context.bot.send_message(update.effective_chat.id, message[2])
 
@@ -42,10 +42,10 @@ def concert_recomendation_keyboard():
                 [InlineKeyboardButton(list(dic)[i+2], callback_data=dic.get(list(dic)[i + 3])), InlineKeyboardButton(list(dic)[i + 3], callback_data=dic.get(list(dic)[i + 3]))],
                 [InlineKeyboardButton(list(dic)[i + 4], callback_data=dic.get(list(dic)[i + 4]))],
                 [InlineKeyboardButton('Дальше', callback_data='next')]]
-
     return InlineKeyboardMarkup(keyboard)
 
 #def concert_recommedation_edit_keyboard()
+
 
 #########################################
 def main():
@@ -53,12 +53,10 @@ def main():
         entry_points=[CommandHandler('start', start)],
         states={
             SELECTING_LEVEL: [MessageHandler(Filters.regex('Концентры🎶'), concert_recomendation)],
-            CONCERT_LEVEL : [CallbackQueryHandler(concert_info,pattern="/concert/2049288/")]
-
         },
         fallbacks=[CommandHandler('start', start)]
     ))
-
+    CallbackQueryHandler(concert_info, pattern=mainf.querydata)
     updater.start_polling()
     updater.idle()
 

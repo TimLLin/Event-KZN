@@ -1,9 +1,12 @@
 import requests
+import urllib.request
 from bs4 import BeautifulSoup
 
 
 token_a = '1844668199:AAGqVvqCfa5a60vcEQ_Cm9dNMtuvRslDAXg'
 token_t = '1777347114:AAEow6W4NmD1r6OYCmKCtjMRth7olY9hOHk'
+
+querydata = None
 
 def bulka():
     muk = []
@@ -15,14 +18,15 @@ def bulka():
     for data in suska:
         if soup.find_all('a', href=True) or soup.find_all('h3', class_='heHLK'):
             muk.append(data.text)
-            duk.append(data['href'])
+            duk.append('https://www.afisha.ru' + data['href'])
     dic = {key:value for key,value in zip(muk,duk)}
     return dic
 
+concert_data = bulka()
 
-def chosen_concert():
+def chosen_concert(url):
     muk = []
-    response = requests.get('https://www.afisha.ru/concert/2049288/')
+    response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     adress = soup.find_all('div', class_="unit__col unit__col_oneandhalf")
     date = soup.find_all('h2', class_='_2YgOJ')
@@ -33,12 +37,22 @@ def chosen_concert():
     for data in date:
         if soup.find_all('h2', class_='_2YgOJ'):
             muk.append(data.text)
+
+
+    return " ".join(muk)
+
+def chosen_photo(url):
+    muk = None
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    image = soup.find_all('img', class_='EVCML')
     for data in image:
-        muk.append(data['src'])
+        muk = data['src']
+    img = urllib.request.urlopen(muk).read()
+    out = open("img.jpg", "wb")
+    out.write(img)
+    return out
 
-    return muk
 
-
-chosen_concert()
-bulka()
+chosen_concert('https://www.afisha.ru/concert/2049288/')
 
