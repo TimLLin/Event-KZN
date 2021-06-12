@@ -47,15 +47,14 @@ def start_answer(a):
                 markup_inline.add(bt_2, bt_1)
                 bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata),reply_markup=markup_inline)
             except AttributeError:
-                bot.send_message(a.message.chat.id, mainf.chosen_concert(mainf.querydata))
+
                 markup_inline = types.InlineKeyboardMarkup()
                 bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
                 bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
                 bt_3 = types.InlineKeyboardButton(text="Купить билет", url=str(mainf.querydata))
                 markup_inline.add(bt_3)
                 markup_inline.add(bt_2, bt_1)
-                bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata),
-                               reply_markup=markup_inline)
+                bot.send_message(a.message.chat.id, mainf.chosen_concert(mainf.querydata),reply_markup=markup_inline)
 
     elif a.data == 'next':
         mainf.event_index += 5
