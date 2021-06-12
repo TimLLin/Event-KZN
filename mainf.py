@@ -10,11 +10,14 @@ querydata = None
 event_index = 0
 counter_update_photo = 0
 message_photo_id = None
-
-def bulka():
+url_data = ['https://www.afisha.ru/kazan/schedule_concert/s-biletami/',
+            'https://www.afisha.ru/kazan/schedule_exhibition/']
+url_querry = None
+dic1 = {}
+def bulka(url):
     muk = []
     duk = []
-    response = requests.get('https://www.afisha.ru/kazan/schedule_concert/s-biletami/')
+    response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     suska = soup.find_all('a', class_="_1F19s")
     kek = soup.find_all('a', class_='_1F19s')
@@ -25,7 +28,7 @@ def bulka():
     dic = {key:value for key,value in zip(muk,duk)}
     return dic
 
-concert_data = bulka()
+
 
 def chosen_concert(url):
     muk = []
@@ -53,10 +56,14 @@ def chosen_concert(url):
         if soup.find_all('h2', class_='_2YgOJ'):
             muk.append(data.text)
     message = None
-    if len(muk)==4:
-        message ="Концерт\n\n{}\n\n{}\n\n{}\n{}""".format(muk[0],muk[1],muk[2],muk[3])
-    elif  len(muk)==3:
-        message = "Концерт\n\n{}\n\n{}\n{}".format(muk[0],muk[1],muk[2])
+    if url_querry == "https://www.afisha.ru/kazan/schedule_concert/s-biletami/":
+        if len(muk)==4:
+            message ="Концерт\n\n{}\n\n{}\n\n{}\n{}""".format(muk[0],muk[1],muk[2],muk[3])
+        elif len(muk)==3:
+            message = "Концерт\n\n{}\n\n{}\n{}".format(muk[0],muk[1],muk[2])
+    if url_querry == "https://www.afisha.ru/kazan/schedule_exhibition/":
+        message = "Выставка\n\n{}\n\n{}\n\n{}".format(muk[0],muk[1],muk[2])
+
 
 
     return message
@@ -73,5 +80,6 @@ def chosen_photo(url):
     out.write(img)
     return out
 
-
-
+chosen_concert('https://www.afisha.ru/exhibition/242384/')
+chosen_concert('https://www.afisha.ru/exhibition/242380/')
+chosen_concert('https://www.afisha.ru/exhibition/242382/')

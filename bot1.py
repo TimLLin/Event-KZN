@@ -26,7 +26,9 @@ def handle_command(message):
 def start_answer(a):
     if a.data == "concert":
         markup_inline = types.InlineKeyboardMarkup()
-        dic = mainf.bulka()
+        dic = mainf.bulka(mainf.url_data[0])
+        mainf.dic1 = mainf.bulka(mainf.url_data[0])
+        mainf.url_querry = mainf.url_data[0]
         for i in range(4):
             bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
             markup_inline.add(bt)
@@ -34,20 +36,30 @@ def start_answer(a):
         markup_inline.add(bt_b)
         bot.send_message(a.message.chat.id, "Рекомендуемые Вам концерты", reply_markup=markup_inline)
 
+    if a.data == "show":
+        markup_inline = types.InlineKeyboardMarkup()
+        dic = mainf.bulka(mainf.url_data[1])
+        mainf.dic1 = mainf.bulka(mainf.url_data[1])
+        mainf.url_querry = mainf.url_data[1]
+        for i in range(4):
+            bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
+            markup_inline.add(bt)
+        bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
+        markup_inline.add(bt_b)
+        bot.send_message(a.message.chat.id, "Рекомендуемые Вам меропрития", reply_markup=markup_inline)
 
-    elif a.data in list(mainf.concert_data.values()):
+    elif a.data in list(mainf.dic1.values()):
             try:
                 mainf.querydata = a.data
                 mainf.chosen_photo(mainf.querydata)
-                markup_inline =  types.InlineKeyboardMarkup()
+                markup_inline = types.InlineKeyboardMarkup()
                 bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
                 bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
                 bt_3 = types.InlineKeyboardButton(text="Купить билет", url = str(mainf.querydata))
                 markup_inline.add(bt_3)
                 markup_inline.add(bt_2, bt_1)
-                bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata),reply_markup=markup_inline)
+                bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata), reply_markup=markup_inline)
             except AttributeError:
-
                 markup_inline = types.InlineKeyboardMarkup()
                 bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
                 bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
@@ -59,7 +71,7 @@ def start_answer(a):
     elif a.data == 'next':
         mainf.event_index += 5
         markup_inline = types.InlineKeyboardMarkup()
-        dic = mainf.bulka()
+        dic = mainf.bulka(mainf.url_querry)
         for i in range(4):
             if mainf.event_index+i < len(dic):
                 bt = types.InlineKeyboardButton(list(dic)[i+mainf.event_index], callback_data=dic.get(list(dic)[i + mainf.event_index]))
@@ -83,7 +95,7 @@ def start_answer(a):
     elif a.data == "previous":
         mainf.event_index -= 5
         markup_inline_back = types.InlineKeyboardMarkup()
-        dic = mainf.bulka()
+        dic = mainf.bulka(mainf.url_querry)
         for i in range(4):
             if mainf.event_index + i > 0:
                 bt = types.InlineKeyboardButton(list(dic)[i + mainf.event_index],
