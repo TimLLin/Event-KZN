@@ -33,8 +33,8 @@ def start_answer(a):
             bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
             markup_inline.add(bt)
         bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
-        markup_inline.add(bt_b)
-
+        bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+        markup_inline.add(bt_menu, bt_b)
         bot.edit_message_reply_markup(a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
 
     if a.data == "theatre":
@@ -47,10 +47,11 @@ def start_answer(a):
             bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
             markup_inline.add(bt)
         bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
-        markup_inline.add(bt_b)
+        bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+        markup_inline.add(bt_menu, bt_b)
         bot.edit_message_reply_markup(a.message.chat.id,a.message.message_id, reply_markup=markup_inline)
 
-    if a.data == "show":
+    elif a.data == "show":
         markup_inline = types.InlineKeyboardMarkup()
         dic = mainf.bulka(mainf.url_data[1])
         mainf.dic1 = mainf.bulka(mainf.url_data[1])
@@ -59,7 +60,21 @@ def start_answer(a):
             bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
             markup_inline.add(bt)
         bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
-        markup_inline.add(bt_b)
+        bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+        markup_inline.add(bt_menu, bt_b)
+        bot.edit_message_reply_markup(a.message.chat.id,a.message.message_id, reply_markup=markup_inline)
+
+    elif a.data == "cinema":
+        markup_inline = types.InlineKeyboardMarkup()
+        dic = mainf.bulka(mainf.url_data[3])
+        mainf.dic1 = mainf.bulka(mainf.url_data[3])
+        mainf.url_querry = mainf.url_data[3]
+        for i in range(4):
+            bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
+            markup_inline.add(bt)
+        bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
+        bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+        markup_inline.add(bt_menu, bt_b)
         bot.edit_message_reply_markup(a.message.chat.id,a.message.message_id, reply_markup=markup_inline)
 
     elif a.data in list(mainf.dic1.values()):
@@ -67,7 +82,7 @@ def start_answer(a):
                 mainf.querydata = a.data
                 mainf.chosen_photo(mainf.querydata)
                 markup_inline = types.InlineKeyboardMarkup()
-                bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
+                bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu_w_edit')
                 bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
                 bt_3 = types.InlineKeyboardButton(text="Купить билет", url = str(mainf.querydata))
                 markup_inline.add(bt_3)
@@ -75,7 +90,7 @@ def start_answer(a):
                 bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata), reply_markup=markup_inline)
             except AttributeError:
                 markup_inline = types.InlineKeyboardMarkup()
-                bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
+                bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu_w_edit')
                 bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
                 bt_3 = types.InlineKeyboardButton(text="Купить билет", url=str(mainf.querydata))
                 markup_inline.add(bt_3)
@@ -99,11 +114,13 @@ def start_answer(a):
 
         if mainf.event_index + 4 < len(dic):
             bt_b = types.InlineKeyboardButton("➡️", callback_data='next')
+            bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
             bt_p = types.InlineKeyboardButton("⬅️", callback_data='previous')
-            markup_inline.add(bt_p, bt_b)
+            markup_inline.add(bt_p, bt_menu, bt_b)
         else:
             bt_p = types.InlineKeyboardButton("⬅️", callback_data='previous')
-            markup_inline.add(bt_p)
+            bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+            markup_inline.add(bt_p, bt_menu)
         bot.edit_message_reply_markup(a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
 
     elif a.data == "previous":
@@ -121,11 +138,14 @@ def start_answer(a):
                 markup_inline_back.add(bt)
         if mainf.event_index > 0:
             bt_b = types.InlineKeyboardButton("➡️", callback_data='next')
+            bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+
             bt_p = types.InlineKeyboardButton("⬅️", callback_data='previous')
-            markup_inline_back.add(bt_p, bt_b)
+            markup_inline_back.add(bt_p,bt_menu, bt_b)
         else:
             bt_b = types.InlineKeyboardButton("➡️", callback_data='next')
-            markup_inline_back.add(bt_b)
+            bt_menu = types.InlineKeyboardButton('👉🏻🏠👈🏻', callback_data='back_main_menu')
+            markup_inline_back.add(bt_menu, bt_b)
         bot.edit_message_reply_markup(a.message.chat.id, a.message.message_id, reply_markup=markup_inline_back)
 
     elif a.data == "back_main_menu":
@@ -138,7 +158,20 @@ def start_answer(a):
         markup_inline.add(bt_1, bt_2)
         markup_inline.add(bt_3, bt_4)
         markup_inline.add(bt_5)
-        bot.send_message(a.message.chat.id, "Посмотрите рекомендации в других категориях", reply_markup=markup_inline)
+        bot.edit_message_reply_markup(a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
+
+    elif a.data == "back_main_menu_w_edit":
+        markup_inline = types.InlineKeyboardMarkup()
+        bt_1 = types.InlineKeyboardButton(text='Театр🎭', callback_data='theatre')
+        bt_2 = types.InlineKeyboardButton(text='Кино🎬', callback_data='cinema')
+        bt_3 = types.InlineKeyboardButton(text='Концерты🎶', callback_data='concert')
+        bt_4 = types.InlineKeyboardButton(text='Выставки🖼', callback_data='show')
+        bt_5 = types.InlineKeyboardButton(text='Другие события🧐', callback_data='another')
+        markup_inline.add(bt_1, bt_2)
+        markup_inline.add(bt_3, bt_4)
+        markup_inline.add(bt_5)
+        bot.send_message(a.message.chat.id, "Вы можете ознакомиться с рекомендацими в категориях",
+                         reply_markup=markup_inline)
 
     elif a.data == "back_c":
         bot.delete_message(a.message.chat.id, a.message.message_id)
