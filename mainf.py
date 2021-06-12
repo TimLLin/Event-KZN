@@ -11,7 +11,8 @@ event_index = 0
 counter_update_photo = 0
 message_photo_id = None
 url_data = ['https://www.afisha.ru/kazan/schedule_concert/s-biletami/',
-            'https://www.afisha.ru/kazan/schedule_exhibition/']
+            'https://www.afisha.ru/kazan/schedule_exhibition/',
+            'https://www.afisha.ru/kazan/schedule_theatre/']
 url_querry = None
 dic1 = {}
 def bulka(url):
@@ -63,10 +64,41 @@ def chosen_concert(url):
             message = "Концерт\n\n{}\n\n{}\n{}".format(muk[0],muk[1],muk[2])
     if url_querry == "https://www.afisha.ru/kazan/schedule_exhibition/":
         message = "Выставка\n\n{}\n\n{}\n\n{}".format(muk[0],muk[1],muk[2])
-
-
-
+    if url_querry == "https://www.afisha.ru/kazan/schedule_theatre/":
+        adress1 = soup.find_all('div', class_="_1kyNY")
+        date = soup.find_all('h2', class_='_2YgOJ')
+        desc = soup.find_all('h2', class_='_3X26C')
+        shit = soup.find_all('div', class_='_3bJX-')
+        for data in date:
+            if soup.find_all('div', class_='_1kyNY'):
+                muk.append(data.text)
+        for data in adress1:
+            if soup.find_all('h2', class_='_2YgOJ'):
+                muk.append(data.text)
+        for data in desc:
+            if soup.find_all('h2', class_='_3X26C'):
+                muk.append(data.text)
+        message = "Спектакаль\n" + "\n\n".join(muk)
     return message
+
+def chosen_theatre(url):
+    muk = []
+    response = requests.get('https://www.afisha.ru/performance/66800/')
+    soup = BeautifulSoup(response.content, 'html.parser')
+    adress1 = soup.find_all('div', class_="_1kyNY")
+    date = soup.find_all('h2', class_='_2YgOJ')
+    desc = soup.find_all('h2', class_='_3X26C')
+    shit = soup.find_all('div', class_='_3bJX-')
+    for data in date:
+        if soup.find_all('div', class_='_1kyNY'):
+            muk.append(data.text)
+    for data in adress1:
+        if soup.find_all('h2', class_='_2YgOJ'):
+            muk.append(data.text)
+    for data in desc:
+        if soup.find_all('h2', class_='_3X26C'):
+            muk.append(data.text)
+    print(muk)
 
 def chosen_photo(url):
     muk = None
@@ -80,6 +112,4 @@ def chosen_photo(url):
     out.write(img)
     return out
 
-chosen_concert('https://www.afisha.ru/exhibition/242384/')
-chosen_concert('https://www.afisha.ru/exhibition/242380/')
-chosen_concert('https://www.afisha.ru/exhibition/242382/')
+chosen_theatre('https://www.afisha.ru/performance/82371/')

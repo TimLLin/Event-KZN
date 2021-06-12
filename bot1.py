@@ -19,7 +19,7 @@ def handle_command(message):
     markup_inline.add(bt_1,bt_2)
     markup_inline.add(bt_3,bt_4)
     markup_inline.add(bt_5)
-    start_message = 'Приветствую {},\nМоя цель помочь Вам найти тусу вам на вечер.\n\nВыберите заинтересовавшую вас категорию'.format(message.chat.first_name)
+    start_message = 'Приветствую {},\nМоя цель помочь Вам найти тусу  на вечер.\n\nВыберите заинтересовавшую вас категорию для ознакомления с рекомендациями'.format(message.chat.first_name)
     bot.send_message(message.chat.id, start_message, reply_markup=markup_inline)
 
 @bot.callback_query_handler(lambda a: True)
@@ -34,7 +34,21 @@ def start_answer(a):
             markup_inline.add(bt)
         bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
         markup_inline.add(bt_b)
-        bot.send_message(a.message.chat.id, "Рекомендуемые Вам концерты", reply_markup=markup_inline)
+
+        bot.edit_message_reply_markup(a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
+
+    if a.data == "theatre":
+        markup_inline = types.InlineKeyboardMarkup()
+        dic = mainf.bulka(mainf.url_data[2])
+        print(dic)
+        mainf.dic1 = mainf.bulka(mainf.url_data[2])
+        mainf.url_querry = mainf.url_data[2]
+        for i in range(4):
+            bt = types.InlineKeyboardButton(list(dic)[i], callback_data=dic.get(list(dic)[i]))
+            markup_inline.add(bt)
+        bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
+        markup_inline.add(bt_b)
+        bot.edit_message_reply_markup(a.message.chat.id,a.message.message_id, reply_markup=markup_inline)
 
     if a.data == "show":
         markup_inline = types.InlineKeyboardMarkup()
@@ -46,7 +60,7 @@ def start_answer(a):
             markup_inline.add(bt)
         bt_b = types.InlineKeyboardButton('➡️', callback_data='next')
         markup_inline.add(bt_b)
-        bot.send_message(a.message.chat.id, "Рекомендуемые Вам меропрития", reply_markup=markup_inline)
+        bot.edit_message_reply_markup(a.message.chat.id,a.message.message_id, reply_markup=markup_inline)
 
     elif a.data in list(mainf.dic1.values()):
             try:
