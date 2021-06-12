@@ -39,9 +39,23 @@ def start_answer(a):
             try:
                 mainf.querydata = a.data
                 mainf.chosen_photo(mainf.querydata)
-                bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata))
+                markup_inline =  types.InlineKeyboardMarkup()
+                bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
+                bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
+                bt_3 = types.InlineKeyboardButton(text="Купить билет", url = str(mainf.querydata))
+                markup_inline.add(bt_3)
+                markup_inline.add(bt_2, bt_1)
+                bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata),reply_markup=markup_inline)
             except AttributeError:
                 bot.send_message(a.message.chat.id, mainf.chosen_concert(mainf.querydata))
+                markup_inline = types.InlineKeyboardMarkup()
+                bt_1 = types.InlineKeyboardButton(text='В главное меню', callback_data='back_main_menu')
+                bt_2 = types.InlineKeyboardButton(text='Назад', callback_data='back_c')
+                bt_3 = types.InlineKeyboardButton(text="Купить билет", url=str(mainf.querydata))
+                markup_inline.add(bt_3)
+                markup_inline.add(bt_2, bt_1)
+                bot.send_photo(a.message.chat.id, open('img.jpg', 'rb'), mainf.chosen_concert(mainf.querydata),
+                               reply_markup=markup_inline)
 
     elif a.data == 'next':
         mainf.event_index += 5
@@ -100,6 +114,10 @@ def start_answer(a):
         markup_inline.add(bt_3, bt_4)
         markup_inline.add(bt_5)
         bot.send_message(a.message.chat.id, "Посмотрите рекомендации в других категориях", reply_markup=markup_inline)
+
+    elif a.data == "back_c":
+        bot.delete_message(a.message.chat.id, a.message.message_id)
+
 
 
 

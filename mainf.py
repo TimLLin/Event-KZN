@@ -52,10 +52,12 @@ def chosen_concert(url):
     for data in date:
         if soup.find_all('h2', class_='_2YgOJ'):
             muk.append(data.text)
+    message = None
+    if len(muk)==4:
+        message ="Концерт\n\n{}\n\n{}\n\n{}\n{}""".format(muk[0],muk[1],muk[2],muk[3])
+    elif  len(muk)==3:
+        message = "Концерт\n\n{}\n\n{}\n{}".format(muk[0],muk[1],muk[2])
 
-
-    message ="Концерт\n\n{}\n\n{}\n\n{}\n{}""".format(muk[0],muk[1],muk[2],muk[3])
-    message.replace('адрес','')
 
     return message
 
@@ -72,5 +74,4 @@ def chosen_photo(url):
     return out
 
 
-chosen_concert('https://www.afisha.ru/concert/2049288/')
 
