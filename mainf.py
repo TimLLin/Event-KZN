@@ -15,7 +15,7 @@ url_data = ['https://www.afisha.ru/kazan/schedule_concert/s-biletami/',
             'https://www.afisha.ru/kazan/schedule_theatre/',
             'https://www.afisha.ru/kazan/schedule_cinema/']
 url_querry = None
-dic1 = {}
+dic = {}
 def bulka(url):
     muk = []
     duk = []
@@ -83,7 +83,7 @@ def chosen_concert(url):
         for data in date:
             if soup.find_all('h2', class_='_2YgOJ'):
                 muk.append(data.text)
-        message = "Выставка\n\n{}\n\n{}\n\n{}".format(muk[0],muk[1],muk[2])
+        message = "Выставка\n" + "\n\n".join(muk)
     elif url_querry == "https://www.afisha.ru/kazan/schedule_theatre/":
         #date = soup.find_all('h2', class_='_2YgOJ')
         slogan = soup.find_all('h2', class_='info-widget__header')
