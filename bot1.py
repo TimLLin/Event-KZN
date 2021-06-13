@@ -8,7 +8,7 @@ from telebot import types
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-bot = telebot.TeleBot(mainf.token_a)
+bot = telebot.TeleBot(mainf.token)
 
 @bot.message_handler(commands=['start'])
 def handle_command(message):
@@ -21,7 +21,7 @@ def handle_command(message):
     markup_inline.add(bt_1,bt_2)
     markup_inline.add(bt_3,bt_4)
     markup_inline.add(bt_5)
-    start_message = 'Приветствую {},\nМоя цель помочь Вам найти тусу  на вечер.\n\nВыберите заинтересовавшую вас категорию для ознакомления с рекомендациями.'.format(message.chat.first_name)
+    start_message = 'Приветствую {},\nМоя цель помочь Вам найти меропритие.\n\nВыберите заинтересовавшую вас категорию для ознакомления с рекомендациями.'.format(message.chat.first_name)
     bot.send_message(message.chat.id, start_message, reply_markup=markup_inline)
 
 @bot.message_handler(commands=['help'])
@@ -42,8 +42,10 @@ def search_event(message):
     user_data = message.text.lower()
     check_answer = 0
     markup_inline = types.InlineKeyboardMarkup()
-    for i in range(4):
+    bot.send_message(message.chat.id, "Идет поиск\n Ожидайте\n🔁🔁🔁🔁")
+    for i in [0, 1, 2, 3]:
         mainf.dic = mainf.bulka(mainf.url_data[i])
+        mainf.url_querry = mainf.url_data[i]
         for elem in list(mainf.dic):
             dist = nltk.edit_distance(user_data,elem.lower())
             if dist/len(user_data) <= 0.4:
@@ -52,6 +54,7 @@ def search_event(message):
                 bot.send_message(message.chat.id,"Нажмите на кнопку для получения информации о мероприятии", reply_markup=markup_inline)
                 check_answer += 1
                 break
+
     if check_answer == 0:
         bot.send_message(message.chat.id, "Данного меропрития не существует, проверьте правильность написания и используйте команду /search ещё раз.")
 
@@ -246,9 +249,9 @@ def start_answer(a):
         markup_inline.add(bt_4)
 
         if choosen == 'quest2_yes':
-            bot.edit_message_text("Ох забей на него, люди временны, а Бот навсегда. Однако нужно ответить на последний вопрос.\n\n3. Вы верите в теорию квантового бессметрия?\n\nНерабочая версия", a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
+            bot.edit_message_text("Ох забей на него, люди временны, а Бот навсегда. Однако нужно ответить на последний вопрос.\n\n3. Вы верите в теорию квантового бессметрия?\n\n", a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
         elif choosen == 'quest2_no':
-            bot.edit_message_text("Бот искренне рад за тебя. Осталось ответить на последний вопрос.\n\n3. Вы верите в теорию квантового бессметрия?\n\nНерабочая версия", a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
+            bot.edit_message_text("Бот искренне рад за тебя. Осталось ответить на последний вопрос.\n\n3. Вы верите в теорию квантового бессметрия?\n\n", a.message.chat.id, a.message.message_id, reply_markup=markup_inline)
 
     elif a.data == 'quest3':
         markup_inline = types.InlineKeyboardMarkup()
