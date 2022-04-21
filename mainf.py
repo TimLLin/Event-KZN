@@ -2,9 +2,9 @@ import requests
 import urllib.request
 from bs4 import BeautifulSoup
 
-token = '1780272045:AAGsnq62CnwLWDfz9RWMKcFWD1zoE1vnpGE'
-token_a = '1844668199:AAGqVvqCfa5a60vcEQ_Cm9dNMtuvRslDAXg'
-token_t = '1777347114:AAEow6W4NmD1r6OYCmKCtjMRth7olY9hOHk'
+token = '***'
+token_a = '***'
+token_t = '***'
 
 querydata = None
 event_index = 0
